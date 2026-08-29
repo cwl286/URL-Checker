@@ -1,5 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { UrlInfo } from './app.type';
 
@@ -9,8 +8,6 @@ import { UrlInfo } from './app.type';
 export class AppService {
   static http = "http:";
   static https = "https:";
-
-  private httpClient = inject(HttpClient);
 
   validateUrl(value: string): boolean {
     try {
@@ -32,27 +29,13 @@ export class AppService {
   mockServer(url: string): Observable<UrlInfo> {
 
     url = url.toLowerCase();
+
     if (url.indexOf('file') !== -1) {
-      return of({ exists: true, type: 'file' } as UrlInfo);
+      return of({ exists: true, type: 'File' } as UrlInfo);
     } else if (url.indexOf('folder') !== -1) {
-      return of({ exists: true, type: 'folder' } as UrlInfo);
+      return of({ exists: true, type: 'Folder' } as UrlInfo);
     } else {
       return of({ exists: false, type: null } as UrlInfo);
     }
-  }
-
-  getUrl(url: string): Observable<UrlInfo> {
-    return this.httpClient.get<UrlInfo>(url).pipe(
-        map(response => {
-          return response;
-        }),
-        catchError(error => {
-          console.error('Status:', error.status);
-          return of({
-            exists: false,
-            type: null
-          } as UrlInfo);
-        })
-      );
   }
 }

@@ -34,12 +34,12 @@ and the application will verify if the URL is reachable and valid.
 
 #### URL Examples
 URL must start with `http://` or `https://`. Here are some examples of valid URLs:
-- https://www.google.com
-- https://www.github.com
+- http://www.example.com
+- https://www.example.com
 
 
 The application uses a mock API to simulate URL checking.
-e.g., if you input `https://www.google.com`, the mock API will return a success response, while an invalid URL will return an error response.
+e.g., if you input `https://www.google.com`, the service will return a valid URL response.
 
 ### File or folder checking
 Mock API does not check for the existence of files or folders on the server. It only validates the format of the provided URL.

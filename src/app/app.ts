@@ -34,8 +34,16 @@ export class App {
 
     var isValid = this.appService.validateUrl(value);
     this.validUrl.set(isValid);
-    console.log(`Validating URL: ${value}`);
-    this.urlChanges.next(this.urlInput());
+
+    if (!isValid) {
+      this.urlInfo.set({
+        exists: false,
+        type: null
+      });
+      return;
+    }
+
+    this.urlChanges.next(value);
   }
 
   private doGetUrl(url: string) {
