@@ -30,6 +30,8 @@ export class AppService {
    * @returns An observable emitting the mocked URL info.
    */
   mockServer(url: string): Observable<UrlInfo> {
+
+    url = url.toLowerCase();
     if (url.indexOf('file') !== -1) {
       return of({ exists: true, type: 'file' } as UrlInfo);
     } else if (url.indexOf('folder') !== -1) {

@@ -24,9 +24,8 @@
     }
 
     @if (urlInfo().exists) {
-      <p>Url exists ✅ {{ urlInfo().type }}</p>
+      <p>{{ urlInfo().type }} exists ✅ </p>
     } @else {
       <p>Url not exists ❌</p>
     }
   </div>
-</main>
