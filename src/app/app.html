@@ -1,0 +1,32 @@
+<main class="main">
+  <div class="content">
+    <h1>URL Checker</h1>
+    <p>Validates the URL while the user is typing and asynchronously checks a mocked server for whether the URL exists and is a file or folder.
+      The server check is throttled to avoid too many requests.</p>
+
+    <label>Enter a URL:
+      <input
+        type="url"
+        placeholder="Enter a URL"
+        id="urlInput"
+        required
+        #url="ngModel"
+        [(ngModel)]="urlInput"
+        (ngModelChange)="onUrlChange($event)"
+      />
+    </label>
+
+    <p> Your URL input: {{ urlInput() }}</p>
+    @if (validUrl()) {
+      <p>Valid URL ✅</p>
+    } @else {
+      <p>Invalid URL ❌</p>
+    }
+
+    @if (urlInfo().exists) {
+      <p>Url exists ✅ {{ urlInfo().type }}</p>
+    } @else {
+      <p>Url not exists ❌</p>
+    }
+  </div>
+</main>
