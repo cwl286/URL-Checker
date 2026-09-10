@@ -26,9 +26,16 @@ Once the server is running, open your browser and navigate to [http://localhost:
 
 
 ## Description
-UrlChecker is a simple web application that allows users to check the validity of URLs. It provides a simple interface where users can input a URL, 
-and the application will verify if the URL is reachable and valid. 
+UrlChecker validates the format of a URL while the user is typing.
 
+1. For valid URLs, the existence check is debounced 750ms to avoid unnecessary requests.
+
+2. A client-side mock server simulates an asynchronous network request with a random delay between 300 and 1500 ms.
+
+For demonstration:
+- URLs containing "file" return an existing File.
+- URLs containing "folder" return an existing Folder.
+- Other URLs return exists: false.
 
 ### Mock API for URL Checking
 

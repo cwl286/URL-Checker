@@ -10,31 +10,33 @@
         placeholder="Enter a URL"
         id="urlInput"
         required
-        #url="ngModel"
         [(ngModel)]="urlInput"
         (ngModelChange)="onUrlChange($event)"
       />
     </label>
 
     <p> Your URL input: {{ urlInput() }}</p>
-    @if (validUrl()) {
-      <p>Valid URL ✅</p>
+    @if (urlInput() && urlInput().length > 0) {
+      @if (validUrl()) {
+        <p>Valid URL ✅</p>
 
-      @if (checking()) {
-        <p>Checking URL…</p>
-      } @else if (urlInfo().exists) {
-          @if (urlInfo().type === 'File') {
-          <p>It is a file ✅</p>
-          } @else if (urlInfo().type === 'Folder') {
-          <p>It is a folder ✅</p>
+        @if (checking()) {
+          <p>Checking URL…</p>
+        } @else if (urlInfo().exists) {
+            @if (urlInfo().type === 'File') {
+            <p>It is a file ✅</p>
+            } @else if (urlInfo().type === 'Folder') {
+            <p>It is a folder ✅</p>
+            } @else {
+              <p>Unknown type</p>
+            }
           } @else {
-            <p>Unknown type</p>
+            <p>File or folder not exists ❌</p>
           }
-        } @else {
-          <p>File or folder not exists ❌</p>
-        }
-    } @else {
-      <p>Invalid URL ❌</p>
+      } @else {
+        <p>Invalid URL ❌</p>
+      }
     }
 
   </div>
+</main>

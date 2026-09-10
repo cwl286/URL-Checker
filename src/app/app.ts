@@ -24,7 +24,7 @@ export class App {
   constructor() {
     this.urlChanges
       .pipe(
-        debounceTime(2000)
+        debounceTime(750) // 750ms delay to avoid excessive server calls
       )
       .subscribe((url: string) => {
         this.doGetUrl(url);
@@ -34,7 +34,7 @@ export class App {
     this.urlInput.set(value);
     this.urlInfo.set({ exists: false, type: null });
 
-    var isValid = this.appService.validateUrl(value);
+    const isValid = this.appService.validateUrl(value);
     this.validUrl.set(isValid);
     this.checking.set(isValid);
 

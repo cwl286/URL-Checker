@@ -27,7 +27,7 @@ export class AppService {
    * @returns An observable emitting the mocked URL info.
    */
   mockServer(url: string): Observable<UrlInfo> {
-    var result = { exists: false, type: null } as UrlInfo;
+    let result = { exists: false, type: null } as UrlInfo;
     const responseDelayMs = this.randomIntFromInterval(300, 1500);
     url = url.toLowerCase();
 
@@ -39,7 +39,7 @@ export class AppService {
     return of(result).pipe(delay(responseDelayMs));
   }
 
-  randomIntFromInterval(min: number, max: number) {
+  private randomIntFromInterval(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 }
