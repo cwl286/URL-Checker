@@ -2,7 +2,7 @@ import { Component, signal, inject } from '@angular/core';
 import { AppService } from './app.service';
 import { FormsModule } from '@angular/forms';
 import { UrlInfo } from './app.type';
-import { Subject, debounceTime } from 'rxjs';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +17,7 @@ export class App {
 
   protected urlInput = signal('');
   protected validUrl = signal(false);
+  protected checking = signal(false);
   protected urlInfo = signal<UrlInfo>({ exists: false, type: null });
 
 
@@ -31,30 +32,26 @@ export class App {
   }
   protected onUrlChange(value: string) {
     this.urlInput.set(value);
+    this.urlInfo.set({ exists: false, type: null });
 
     var isValid = this.appService.validateUrl(value);
     this.validUrl.set(isValid);
-
-    if (!isValid) {
-      this.urlInfo.set({
-        exists: false,
-        type: null
-      });
-      return;
-    }
+    this.checking.set(isValid);
 
     this.urlChanges.next(value);
   }
 
   private doGetUrl(url: string) {
-    if (this.validUrl()) {
-      this.getUrl(url).subscribe((urlInfo: UrlInfo) => {
-        this.urlInfo.set(urlInfo);
-      });
-
-    } else {
-      this.urlInfo.set({ exists: false, type: null });
+    if (url !== this.urlInput() || !this.validUrl()) {
+      return;
     }
+
+    this.getUrl(url).subscribe((urlInfo: UrlInfo) => {
+      if (url === this.urlInput()) {
+        this.urlInfo.set(urlInfo);
+        this.checking.set(false);
+      }
+    });
   }
 
   private getUrl(url: string) {

@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { delay, Observable, of } from 'rxjs';
 import { UrlInfo } from './app.type';
 
 @Injectable({
@@ -27,15 +27,19 @@ export class AppService {
    * @returns An observable emitting the mocked URL info.
    */
   mockServer(url: string): Observable<UrlInfo> {
-
+    var result = { exists: false, type: null } as UrlInfo;
+    const responseDelayMs = this.randomIntFromInterval(300, 1500);
     url = url.toLowerCase();
 
     if (url.indexOf('file') !== -1) {
-      return of({ exists: true, type: 'File' } as UrlInfo);
+      result = { exists: true, type: 'File' } as UrlInfo;
     } else if (url.indexOf('folder') !== -1) {
-      return of({ exists: true, type: 'Folder' } as UrlInfo);
-    } else {
-      return of({ exists: false, type: null } as UrlInfo);
+      result = { exists: true, type: 'Folder' } as UrlInfo;
     }
+    return of(result).pipe(delay(responseDelayMs));
+  }
+
+  randomIntFromInterval(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 }
